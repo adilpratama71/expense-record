@@ -42,14 +42,23 @@ const userSchema = new Schema({
   username: {
     type: String,
     required: [true, "Username is required field"],
-    minlength: 5,
-    maxlength: 25,
+    minlength: [5, "Username must be at least 5 characters long"],
+    maxlength: [25, "Username must be no longer than 25 characters long"],
     validate: usernameValidators
   },
   email: {
     type: String,
     required: [true, "Email is required field"],
     validate: emailValidators
+  },
+  password: {
+    type: String,
+    required: [true, "Password is required field"],
+    minlength: [6, "Password must be at least 6 characters long"]
+  },
+  photo: {
+    type: String,
+    default: null
   }
 })
 

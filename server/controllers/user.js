@@ -1,4 +1,4 @@
-const User = require('../models/user')
+const { User } = require('../models')
 
 class UserController {
   static register (req, res, next) {
