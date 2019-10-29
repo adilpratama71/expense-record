@@ -1,4 +1,5 @@
 const mongoose = require('../config/mongoose')
+const { hashPassword } = require('../helpers/bcrypt')
 const Schema = mongoose.Schema
 
 const usernameValidators = [
@@ -34,9 +35,15 @@ const emailValidators = [
   {
     validator: function isEmail(value) {
       return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(value)
-    }
+    },
+    message: "Invalid email address"
   }
 ]
+
+const enumGender = {
+  values: ['male', 'female'],
+  message: "Gender between male & female"
+}
 
 const userSchema = new Schema({
   username: {
@@ -56,10 +63,29 @@ const userSchema = new Schema({
     required: [true, "Password is required field"],
     minlength: [6, "Password must be at least 6 characters long"]
   },
+  gender: {
+    type: String,
+    required: [true, "Gender is required field"],
+    enum: enumGender
+  },
   photo: {
     type: String,
     default: null
   }
+}, {
+  timestamps: true
+})
+
+userSchema.pre('save', function (next) {
+  if (!this.photo) {
+    this.gender == "male" ? this.photo = process.env.DUMMYMALE : this.photo = process.env.DUMMYFEMALE
+  }
+  hashPassword(this.password)
+  .then(hash => { 
+    this.password = hash
+    next()
+  })
+  .catch(err => next(err))
 })
 
 const User = mongoose.model("User", userSchema)

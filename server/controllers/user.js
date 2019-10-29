@@ -2,9 +2,18 @@ const { User } = require('../models')
 
 class UserController {
   static register (req, res, next) {
-    User.create({ username: "sasuke" })
-    .then(newUser => console.log(newUser))
-    .catch(err => console.log(err))
+    const { username, email, password, photo, gender } = req.body
+    User.create({ username, email, password, photo, gender })
+    .then(doc => {
+      res.status(200).json({ _id: doc._id, username: doc.username, email: doc.email, gender: doc.gender })
+    })
+    .catch(err => res.send(err))
+  }
+
+  static temporaryDestroy (req, res, next) {
+    User.deleteMany({})
+    .then(result => res.send(result))
+    .catch(err => res.send(err))
   }
 }
 
