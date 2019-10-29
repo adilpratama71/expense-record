@@ -9,7 +9,7 @@ class UserController {
     })
     .catch(err => res.send(err))
   }
-
+  //temporary
   static temporaryDestroy (req, res, next) {
     User.deleteMany({})
     .then(result => res.send(result))
