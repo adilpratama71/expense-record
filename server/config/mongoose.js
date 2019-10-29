@@ -9,3 +9,5 @@ const options = {
 mongoose.connect(uri, options)
 .then(() => console.log(`Connect to ${uri}`) )
 .catch(err => console.log(err))
+
+module.exports = mongoose
