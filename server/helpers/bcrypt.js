@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt')
 const salt = Number(process.env.SALT)
+
 module.exports = {
   hashPassword: (password) => {
     return new Promise((resolve, reject) => {
