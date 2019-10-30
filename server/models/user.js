@@ -81,11 +81,7 @@ userSchema.pre('save', function (next) {
     this.gender == "male" ? this.photo = process.env.DUMMYMALE : this.photo = process.env.DUMMYFEMALE
   }
   hashPassword(this.password)
-  .then(hash => { 
-    this.password = hash
-    next()
-  })
-  .catch(err => next(err))
+  next()
 })
 
 const User = mongoose.model("User", userSchema)

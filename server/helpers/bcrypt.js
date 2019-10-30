@@ -3,19 +3,9 @@ const salt = Number(process.env.SALT)
 
 module.exports = {
   hashPassword: (password) => {
-    return new Promise((resolve, reject) => {
-      bcrypt.hash(password, salt)
-      .then(hash => {
-        resolve(hash)
-      })
-      .catch(err => reject(err))
-    })
+    return bcrypt.hashSync(password, salt)
   },
   comparePassword: (password, dbPassword) => {
-    return new Promise((resolve, reject) => {
-      bcrypt.compare(password, dbPassword)
-      .then(res => resolve(res))
-      .catch(err => reject(err)) 
-    })
+    return bcrypt.compareSync(password, dbPassword)
   }
 }
