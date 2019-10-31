@@ -32,12 +32,11 @@ class UserController {
       }
     })
     .catch(err => res.send(err))
-
   }
 
   static update (req, res, next) {
     const { username, email, password, gender, photo } = req.body
-    User.updateOne({ _id: req.params.id }, {
+    User.findOneAndUpdate({ _id: req.params.id }, {
       username, email, password, photo, gender
     }, { new: true, runValidators: true, select: ['-password'], omitUndefined: true })
     .then(doc => res.status(200).json(doc))
@@ -45,7 +44,7 @@ class UserController {
   }
 
   static findAll (req, res, next) {
-    User.find()
+    User.find().select(['-password'])
     .then(docs => res.status(200).json(docs))
     .catch(err => res.send(err))
   } 

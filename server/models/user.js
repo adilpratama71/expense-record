@@ -84,7 +84,7 @@ userSchema.pre('save', function (next) {
   next()
 })
 
-userSchema.pre('updateOne', function (next) {
+userSchema.pre('findOneAndUpdate', function (next) {
   const data = this.getUpdate()
   if (data.password) {
     data.password = hashPassword(data.password)
