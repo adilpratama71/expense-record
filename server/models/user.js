@@ -77,9 +77,6 @@ const userSchema = new Schema({
 })
 
 userSchema.pre('save', function (next) {
-  if (!this.photo) {
-    this.gender == "male" ? this.photo = process.env.DUMMYMALE : this.photo = process.env.DUMMYFEMALE
-  }
   this.password = hashPassword(this.password)
   next()
 })

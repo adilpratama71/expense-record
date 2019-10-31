@@ -6,7 +6,7 @@ class UserController {
   static register (req, res, next) {
     const { username, email, password, photo, gender } = req.body
     User.create({ username, email, password, photo, gender })
-    .then(doc => res.status(200).json({
+    .then(doc => res.status(201).json({
       _id: doc._id, username: doc.username, email: doc.email, photo: doc.photo, gender: doc.gender
     }))
     .catch(err => next(err))
@@ -39,7 +39,7 @@ class UserController {
     User.findOneAndUpdate({ _id: req.params.id }, {
       username, email, password, photo, gender
     }, { new: true, runValidators: true, select: ['-password'], omitUndefined: true })
-    .then(doc => res.status(200).json(doc))
+    .then(doc => res.status(201).json(doc))
     .catch(err => next(err))
   }
 
