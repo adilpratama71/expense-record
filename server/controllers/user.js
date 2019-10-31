@@ -17,7 +17,6 @@ class UserController {
     const errorWrongReq = { name: "server", status: 400, message: "Username / password wrong" }
     User.findOne({ email })
     .then(doc => {
-      console.log(doc)
       if (doc) {
         if (comparePassword(password, doc.password)) {
           const payload = { _id: doc._id, username: doc.username }
@@ -35,6 +34,21 @@ class UserController {
     .catch(err => res.send(err))
 
   }
+
+  static update (req, res, next) {
+    const { username, email, password, gender, photo } = req.body
+    User.updateOne({ _id: req.params.id }, {
+      username, email, password, photo, gender
+    }, { new: true, runValidators: true, select: ['-password'], omitUndefined: true })
+    .then(doc => res.status(200).json(doc))
+    .catch(err => res.send(err))
+  }
+
+  static findAll (req, res, next) {
+    User.find()
+    .then(docs => res.status(200).json(docs))
+    .catch(err => res.send(err))
+  } 
   //temporary
   static temporaryDestroy (req, res, next) {
     User.deleteMany({})

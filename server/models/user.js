@@ -80,7 +80,16 @@ userSchema.pre('save', function (next) {
   if (!this.photo) {
     this.gender == "male" ? this.photo = process.env.DUMMYMALE : this.photo = process.env.DUMMYFEMALE
   }
-  hashPassword(this.password)
+  this.password = hashPassword(this.password)
+  next()
+})
+
+userSchema.pre('updateOne', function (next) {
+  const data = this.getUpdate()
+  if (data.password) {
+    data.password = hashPassword(data.password)
+    this.findOneAndUpdate({}, data).exec()
+  }
   next()
 })
 
