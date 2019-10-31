@@ -23,12 +23,10 @@ const expenseSchema = new Schema({
     type: String,
     default: null
   }
+}, {
+  timestamps: true
 })
 
-// expenseSchema.pre('validate', function(next) {
-//   console.log(this)
-//   next()
-// })
 
 const Expense = mongoose.model('Expense', expenseSchema)
 
