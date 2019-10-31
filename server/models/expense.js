@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('../config/mongoose')
 const Schema = mongoose.Schema
 
 const expenseSchema = new Schema({
@@ -24,6 +24,11 @@ const expenseSchema = new Schema({
     default: null
   }
 })
+
+// expenseSchema.pre('validate', function(next) {
+//   console.log(this)
+//   next()
+// })
 
 const Expense = mongoose.model('Expense', expenseSchema)
 

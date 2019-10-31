@@ -1,4 +1,4 @@
-const router = require('../config/router')
+const router = require('../config/express').Router()
 const { UserController } = require('../controllers')
 
 router.post('/', UserController.register)

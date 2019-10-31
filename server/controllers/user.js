@@ -9,7 +9,7 @@ class UserController {
     .then(doc => res.status(200).json({
       _id: doc._id, username: doc.username, email: doc.email, photo: doc.photo, gender: doc.gender
     }))
-    .catch(err => res.send(err))
+    .catch(err => next(err))
   }
 
   static login (req, res, next) {
@@ -31,7 +31,7 @@ class UserController {
         next(errorWrongReq)
       }
     })
-    .catch(err => res.send(err))
+    .catch(err => next(err))
   }
 
   static update (req, res, next) {
@@ -40,19 +40,19 @@ class UserController {
       username, email, password, photo, gender
     }, { new: true, runValidators: true, select: ['-password'], omitUndefined: true })
     .then(doc => res.status(200).json(doc))
-    .catch(err => res.send(err))
+    .catch(err => next(err))
   }
 
   static findAll (req, res, next) {
     User.find().select(['-password'])
     .then(docs => res.status(200).json(docs))
-    .catch(err => res.send(err))
+    .catch(err => next(err))
   } 
   //temporary
   static temporaryDestroy (req, res, next) {
     User.deleteMany({})
     .then(result => res.send(result))
-    .catch(err => res.send(err))
+    .catch(err => next(err))
   }
 }
 
