@@ -10,6 +10,7 @@ module.exports = (err, req, res, next) => {
     res.status(400).json(objectOfError)
   }
   else if (err.name == "Expenses Error") {
-    res.status(err.status).json(err.message)
+    objectOfError.message = err.message
+    res.status(err.status).json(objectOfError)
   }
 }
