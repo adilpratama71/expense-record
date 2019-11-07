@@ -8,5 +8,8 @@ module.exports = (err, req, res, next) => {
     const errors = Object.keys(err.errors)
     objectOfError.message = errors.map(el => err.errors[el].message)
     res.status(400).json(objectOfError)
-  } 
+  }
+  else if (err.name == "Expenses Error") {
+    res.status(err.status).json(err.message)
+  }
 }
