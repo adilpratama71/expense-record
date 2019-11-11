@@ -19,13 +19,14 @@ class ExpenseController {
   }
 
   static delete (req, res, next) {
-    Expense.findByIdAndDelete(req.params.id)
-    .then(doc => res.status(200).json(doc))
-    .catch(err => next(err))
+    Expense.findByIdAndUpdate(req.params.id,{
+      destroy: true
+    })
+    .then(doc => res.status(204).json(doc))
   }
 
   static findAll (req, res, next) {
-    Expense.find()
+    Expense.find({ destroy: false }).select(["-destroy"])
     .then(doc => res.status(200).json(doc))
     .catch(err => next(err))
   }
@@ -36,11 +37,20 @@ class ExpenseController {
       message: "Data Not Found",
       status: 404
     }
-    Expense.findById(req.params.id)
+    Expense.find({
+      _id: req.params.id,
+      destroy: false
+    })
     .then(doc => doc ? res.status(200).json(doc) : next(notFoundmessage))
     .catch(err => next(err))
   }
-
+  
+  // destroy all document
+  static destroy (req, res, next) {
+    Expense.deleteMany({})
+    .then(doc => res.status(204).json(doc))
+    .catch(err => next(err))
+  }
 }
 
 module.exports = ExpenseController

@@ -22,11 +22,18 @@ const expenseSchema = new Schema({
   photo: {
     type: String,
     default: null
+  },
+  destroy: {
+    type: Boolean,
+    default: false
   }
 }, {
   timestamps: true
 })
 
+expenseSchema.post('save', function (doc, next) {
+  next()
+})
 
 const Expense = mongoose.model('Expense', expenseSchema)
 
