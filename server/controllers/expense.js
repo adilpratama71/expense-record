@@ -44,11 +44,16 @@ class ExpenseController {
     .then(doc => doc ? res.status(200).json(doc) : next(notFoundmessage))
     .catch(err => next(err))
   }
-  
-  // destroy all document
-  static destroy (req, res, next) {
-    Expense.deleteMany({})
-    .then(doc => res.status(204).json(doc))
+
+  static findUserData (req, res, next) {
+    Expense.find({ UserId: req.decode._id })
+    .then(doc => res.status(200).json(doc))
+    .catch(err => next(err))
+  }
+
+  static delete (req, res, next) {
+    Expense.findByIdAndDelete(req.params.id)
+    .then(res => res.status(200).json(res))
     .catch(err => next(err))
   }
 }
