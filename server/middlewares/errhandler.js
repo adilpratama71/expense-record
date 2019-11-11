@@ -13,4 +13,13 @@ module.exports = (err, req, res, next) => {
     objectOfError.message = err.message
     res.status(err.status).json(objectOfError)
   }
+  else if (err.name == "MulterError") {
+    objectOfError.message = err.message
+    if (err.message == "File too large") {
+      res.status(413).json(objectOfError)
+    }
+    else if (err.message == "File format should be image"){
+      res.status(415).json(objectOfError)
+    }
+  }
 }

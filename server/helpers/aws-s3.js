@@ -10,9 +10,11 @@ const s3 = new AWS.S3({
 module.exports = {
   uploadFile: function (file) {
     const setup = {
+      ACL: 'public-read',
       Bucket: BUCKET_NAME,
-      Key: 'test.jpg',
-      Body: fs.readFileSync(file)
+      Key: `${file.originalname}${Date.now()}`,
+      Body: file.buffer,
+      ContentType: file.mimetype
     }
     return new Promise ((resolve, reject) => {
       s3.upload(setup, (err, data) => {

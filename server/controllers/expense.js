@@ -23,6 +23,7 @@ class ExpenseController {
       destroy: true
     })
     .then(doc => res.status(204).json(doc))
+    .catch(err => next(err))
   }
 
   static findAll (req, res, next) {
@@ -32,28 +33,15 @@ class ExpenseController {
   }
 
   static findOne (req, res, next) {
-    const notFoundmessage = {
-      name: "Expenses Error",
-      message: "Data Not Found",
-      status: 404
-    }
-    Expense.find({
-      _id: req.params.id,
-      destroy: false
-    })
+    const notFoundmessage = { name: "Expenses Error", message: "Data Not Found", status: 404 }
+    Expense.find({ _id: req.params.id, destroy: false })
     .then(doc => doc ? res.status(200).json(doc) : next(notFoundmessage))
     .catch(err => next(err))
   }
 
-  static findUserData (req, res, next) {
-    Expense.find({ UserId: req.decode._id })
-    .then(doc => res.status(200).json(doc))
-    .catch(err => next(err))
-  }
-
-  static delete (req, res, next) {
-    Expense.findByIdAndDelete(req.params.id)
-    .then(res => res.status(200).json(res))
+  static destroy (req, res, next) {
+    Expense.deleteMany({})
+    .then(doc => res.status(204).json(doc))
     .catch(err => next(err))
   }
 }
