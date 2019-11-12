@@ -2,7 +2,7 @@ const { Expense, User } = require('../models')
 const message = { status: 403, message: "Not Authorized" }
 module.exports = {
   authorization: (req, res, next) => {
-    Expense.find({
+    Expense.findOne({
       _id: req.params.id,
       UserId: req.decode._id
     })
