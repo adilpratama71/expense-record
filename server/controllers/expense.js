@@ -21,8 +21,11 @@ class ExpenseController {
   static delete (req, res, next) {
     Expense.findByIdAndUpdate(req.params.id,{
       destroy: true
+    }).select(["-destroy"])
+    .then(doc => {
+      req.image = doc.photo
+      next() 
     })
-    .then(doc => res.status(204).json(doc))
     .catch(err => next(err))
   }
 
@@ -41,6 +44,14 @@ class ExpenseController {
 
   static destroy (req, res, next) {
     Expense.deleteMany({})
+    .then(doc => res.status(204).json(doc))
+    .catch(err => next(err))
+  }
+
+  static cleanDoc (req, res, next) {
+    Expense.deleteMany({
+      destroy: true
+    })
     .then(doc => res.status(204).json(doc))
     .catch(err => next(err))
   }
