@@ -22,4 +22,7 @@ module.exports = (err, req, res, next) => {
       res.status(415).json(objectOfError)
     }
   }
+  else {
+    res.status(500).json(err)
+  }
 }
