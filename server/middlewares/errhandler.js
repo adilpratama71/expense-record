@@ -23,6 +23,7 @@ module.exports = (err, req, res, next) => {
     }
   }
   else {
-    res.status(500).json(err)
+    objectOfError.message = "Internal Server Error"
+    res.status(500).json(objectOfError)
   }
 }

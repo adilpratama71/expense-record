@@ -7,7 +7,7 @@ module.exports = {
         req.body.photo = data.Location
         req.body.upload = true
         next()
-      })
+      }) 
       .catch(err => next(err))
     }
     else {
