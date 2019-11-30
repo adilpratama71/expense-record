@@ -1,31 +1,14 @@
 import React from 'react';
-import { 
-  StyleSheet,
-  Text,
-  View,
-  Button 
-} from 'react-native';
+import Login from './src/containers/login';
+import { ThemeProvider } from 'react-native-elements';
+import theme from './theme'
 
 export default function App() {
 
-  function handlePress (message) {
-    console.log(message)
-  }
   return (
-    <View style={styles.container}>
-      <Button
-        title="Press Me"
-        onPress={() => handlePress("submit")} 
-      />
-    </View>
+    <ThemeProvider theme={theme}>
+      <Login />
+    </ThemeProvider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
