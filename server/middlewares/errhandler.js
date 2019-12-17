@@ -1,4 +1,4 @@
-module.exports = (err, req, res, next) => {
+module.exports = (err, ctx) => {
   var objectOfError = { from: "server", message: "" }
   if (err.name == "JsonWebTokenError") {
     objectOfError.message = err.message
@@ -7,7 +7,7 @@ module.exports = (err, req, res, next) => {
   else if (err.name == "ValidationError") {
     const errors = Object.keys(err.errors)
     objectOfError.message = errors.map(el => err.errors[el].message)
-    res.status(400).json(objectOfError)
+    ctx.body = objectOfError
   }
   else if (err.name == "Expenses Error") {
     objectOfError.message = err.message

@@ -3,13 +3,17 @@ const { comparePassword } = require('../helpers/bcrypt')
 const { generateToken } = require('../helpers/jwt')
 
 class UserController {
-  static register (req, res, next) {
-    const { username, email, password, photo, gender } = req.body
-    User.create({ username, email, password, photo, gender })
-    .then(doc => res.status(201).json({
-      _id: doc._id, username: doc.username, email: doc.email, photo: doc.photo, gender: doc.gender
-    }))
-    .catch(err => next(err))
+  static async register (ctx, next) {
+    try {
+      const { username, email, password, photo, gender } = ctx.request.body;
+      const doc = await User.create({ username, email, password, photo, gender });
+      ctx.body = {
+        _id: doc._id, username: doc.username, email: doc.email, photo: doc.photo, gender: doc.gender
+      }
+    } catch (err) {
+      // console.log(err)
+      ctx.app.emit('error', err, ctx)
+    }
   }
 
   static login (req, res, next) {
